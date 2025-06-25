@@ -1,1 +1,2 @@
 # DBMS-PROJECT
+This Hospital Management System is a relational database project built using PostgreSQL. It models real-world hospital operations including patient records, appointments, billing, prescriptions, room allocation, and insurance. The database is fully normalized to BCNF, ensuring data consistency and eliminating redundancy. Designed with a strong ER model and implemented via SQL DDL scripts.
