@@ -1,0 +1,202 @@
+SET SEARCH_PATH TO HOSPITAL;
+
+INSERT INTO Department (DepartmentID, Name)
+VALUES
+    (1, 'Cardiology'),
+    (2, 'Neurology'),
+    (3, 'Orthopedics'),
+    (4, 'Pediatrics'),
+    (5, 'Gastroenterology'),
+	(6, 'Dermatology'),
+    (7, 'Radiology'),
+    (8, 'ENT'),
+    (9, 'Gynecology'),
+    (10, 'Psychiatry');
+
+INSERT INTO Doctor (DoctorID, Fname, Lname, PhoneNo, Email, Qualification, Specialization, DepartmentID)
+VALUES
+    (101, 'John', 'Doe', '123-456-7890', 'john.doe@hospital.com', 'MD', 'Cardiologist', 1),
+    (102, 'Emily', 'Clark', '555-789-1234', 'emily.clark@hospital.com', 'MBBS', 'Cardiologist', 1),
+    (103, 'Jane', 'Doe', '555-321-4567', 'jane.doe@hospital.com', 'MD', 'Neurologist', 2),
+    (104, 'Robert', 'Smith', '555-654-3210', 'robert.smith@hospital.com', 'MBBS', 'Neurologist', 2),
+    (105, 'David', 'Brown', '555-123-4567', 'david.brown@hospital.com', 'MBBS', 'Neurologist', 2),
+    (106, 'Sophia', 'Lee', '555-234-5678', 'sophia.lee@hospital.com', 'MD', 'Orthopedic Surgeon', 3),
+    (107, 'Michael', 'Green', '555-789-1234', 'michael.green@hospital.com', 'MD', 'Pediatrician', 4),
+    (108, 'Sarah', 'Martinez', '555-890-1234', 'sarah.martinez@hospital.com', 'MBBS', 'Pediatrician', 4),
+    (109, 'Olivia', 'Taylor', '555-234-5678', 'olivia.taylor@hospital.com', 'MD', 'Gastroenterologist', 5),
+    (110, 'Liam', 'Wilson', '555-345-6789', 'liam.wilson@hospital.com', 'MD', 'Orthopedic Surgeon', 3),
+    (111, 'James', 'Smith', '555-567-8901', 'james.smith@hospital.com', 'MD', 'Dermatologist', 6),
+    (112, 'Emma', 'Johnson', '555-678-9012', 'emma.johnson@hospital.com','MD', 'Orthopedic Surgeon', 3),
+    (113, 'Daniel', 'Adams', '555-789-0123', 'daniel.adams@hospital.com', 'MD', 'Radiologist', 7),
+    (114, 'Isabella', 'Miller', '555-890-1234', 'isabella.miller@hospital.com', 'MBBS', 'Radiologist', 7),
+    (115, 'Lucas', 'Davis', '555-789-0123', 'lucas.davis@hospital.com', 'MBBS', 'ENT Specialist', 8),
+    (116, 'Mia', 'Harris', '555-890-1234', 'mia.harris@hospital.com', 'MD', 'ENT Specialist', 8),
+    (117, 'Ethan', 'Garcia', '555-901-2345', 'ethan.garcia@hospital.com', 'MD', 'Gynecologist', 9),
+    (118, 'Amelia', 'Martinez', '555-890-1234', 'amelia.martinez@hospital.com', 'MBBS', 'Gynecologist', 9),
+    (119, 'Noah', 'Lee', '555-567-8902', 'noah.lee@hospital.com', 'MD', 'Psychiatrist', 10),
+    (120, 'Sophia', 'Harris', '555-678-9013', 'sophia.harris@hospital.com', 'MD', 'Psychiatrist', 10);
+
+
+INSERT INTO Patient (PatientID, Fname, Lname, Address, DOB, Gender, PhoneNo)
+VALUES
+    (201, 'Alice', 'Johnson', '123 Elm St, Springfield', '1985-06-15', 'Female', '555-678-2345'),
+    (202, 'Bob', 'Williams', '456 Oak St, Springfield', '1990-03-22', 'Male', '555-234-5678'),
+    (203, 'Charlie', 'Davis', '789 Pine St, Springfield', '1982-11-30', 'Male', '555-345-6789'),
+    (204, 'Diana', 'Miller', '101 Maple St, Springfield', '1995-01-18', 'Female', '555-456-7890'),
+    (205, 'Eva', 'Taylor', '202 Birch St, Springfield', '1978-12-05', 'Female', '555-567-8901'),
+    (206, 'Frank', 'Scott', '303 Ash St', '1988-08-08', 'Male', '555-101-1111'),
+    (207, 'Grace', 'Perry', '404 Cherry St', '1992-07-17', 'Female', '555-202-2222'),
+    (208, 'Helen', 'Ward', '505 Cedar St', '1970-12-25', 'Female', '555-303-3333');
+
+
+INSERT INTO Appointment (AppointID, PatientID, DoctorID, AppointmentDate, Status, Slot)
+VALUES
+    ('A001', 201, 101, '2025-04-15', 'Scheduled', '2025-04-15 09:00:00'),
+    ('A002', 202, 102, '2025-04-16', 'Scheduled', '2025-04-16 10:00:00'),
+    ('A003', 203, 103, '2025-04-17', 'Completed', '2025-04-17 11:00:00'),
+    ('A004', 204, 104, '2025-04-18', 'Cancelled', '2025-04-18 08:00:00'),
+    ('A005', 204, 105, '2025-04-15', 'No-show', '2025-04-15 07:00:00'),
+    ('A006', 206, 106, '2025-04-20', 'Scheduled', '2025-04-20 08:00:00'),
+    ('A007', 204, 107, '2025-04-21', 'Completed', '2025-04-21 09:00:00'),
+    ('A008', 208, 108, '2025-04-15', 'Cancelled', '2025-04-15 10:00:00'),
+	('A009', 204, 102, '2022-03-20', 'Completed', '2022-03-20 09:00:00'),
+	('A010', 204, 107, '2020-12-21', 'Completed', '2020-12-21 09:00:00'),
+	 ('A011', 202, 101, '2024-04-10', 'Scheduled', '2024-04-10 10:00:00'),
+	 ('A012', 202, 103, '2024-07-01', 'Scheduled', '2024-07-01 10:00:00');
+
+INSERT INTO MedicalRecords (RecordID, AppointID, Diagnosis, Treatment, Allergy, BloodGroup)
+VALUES
+    (301, 'A001', 'Hypertension', 'Lifestyle Changes, Medication', 'None', 'O+'),
+    (302, 'A002', 'Migraine', 'Painkillers', 'None', 'A+'),
+    (303, 'A003', 'COVID-19', 'ICU Support, Antivirals', 'None', 'B+'),
+    (304, 'A004', 'COVID-19', 'ICU Support, Antivirals', 'Peanuts', 'AB+'),
+    (305, 'A005', 'Gastritis', 'Antacids, Diet Changes', 'Lactose', 'AB+'),
+    (306, 'A006', 'COVID-19', 'ICU Support, Antivirals', 'None', 'A-'),
+    (307, 'A007', 'Kidney Stones', 'Surgery', 'Sulfa', 'AB+'),
+    (308, 'A008', 'Cancer Screening', 'Chemotherapy', 'None', 'O+'),
+    (309, 'A009', 'Gastritis', 'Antacids, Diet Changes', 'Peanuts', 'AB+'),
+    (310, 'A010', 'Typhoid', 'Antibiotics', 'Peanuts', 'AB+'),
+    (311, 'A011', 'Migraine', 'Painkillers', 'None', 'A+'),
+    (312, 'A012', 'Kidney Stones', 'Surgery', 'None', 'A+');
+
+INSERT INTO Medicine (MedicineID, MedicineName)
+VALUES
+    (401, 'Aspirin'),
+    (402, 'Paracetamol'),
+    (403, 'Ibuprofen'),
+    (404, 'Amoxicillin'),
+    (405, 'Omeprazole'),
+    (406, 'Metformin'),
+    (407, 'Lisinopril'),
+    (408, 'Atorvastatin'),
+    (409, 'Albuterol'),
+    (410, 'Prednisone'),
+    (411, 'Warfarin'),
+    (412, 'Levothyroxine'),
+    (413, 'Zyrtec'),
+    (414, 'Cetirizine'),
+    (415, 'Losartan');
+
+INSERT INTO MedicineDetails (MedicineID, Manufacturer, ExpiryDate, PricePerUnit)
+VALUES
+    (401, 'Pharma Co.', '2027-12-01', 10.50),
+    (402, 'MediLife', '2026-08-01', 5.20),
+    (403, 'HealthTech', '2026-11-01', 8.30),
+    (404, 'MediCare', '2028-02-01', 12.00),
+    (405, 'Global Pharm', '2027-09-01', 15.40),
+    (406, 'HealthWorks', '2027-11-01', 9.00),
+    (407, 'Pharma Co.', '2026-10-01', 7.50),
+    (408, 'BioMed Inc.', '2028-01-01', 13.40),
+    (409, 'CureWell', '2025-12-31', 6.70),
+    (410, 'MediLife', '2026-09-01', 11.20),
+    (411, 'Global Pharm', '2027-10-01', 8.10),
+    (412, 'Wellness Pharma', '2027-06-01', 5.90),
+    (413, 'MediCare', '2026-12-01', 6.00),
+    (414, 'Relief Inc.', '2025-04-23', 6.60),
+    (415, 'BioPlus', '2025-04-25', 9.80);
+	
+INSERT INTO Prescribes (AppointID, MedicineID, Instruction,Duration)
+VALUES
+    ('A001', 401, 'Take one tablet after breakfast', '10 days'),
+    ('A002', 402, 'Take one tablet every 6 hours', '5 days'),
+    ('A003', 403, 'Take one tablet after meals', '7 days'),
+    ('A004', 404, 'Take one capsule after meals','7 days'),
+    ('A005', 405, 'Take one tablet in the morning', '14 days'),
+    ('A006', 406, 'Take one tablet in evening', '30 days'),
+    ('A007', 407, 'Take daily in morning', '15 days'),
+    ('A008', 408, 'Take after meals', '10 days'),
+    ('A009', 401, 'Take one tablet in evening', '30 days'),
+    ('A009', 402, 'Take daily in morning', '15 days'),
+    ('A010', 403, 'Take after meals', '10 days'),
+    ('A010', 404, 'Take one tablet before sleep', '7 days'),
+    ('A011', 405, 'Take twice a day', '20 days'),
+    ('A011', 406, 'Take one tablet after meals', '15 days'),
+    ('A012', 407, 'Take daily in morning', '30 days'),
+    ('A012', 408, 'Take one tablet in evening', '25 days');
+
+INSERT INTO Bill (BillID, AppointID, TotalAmount, PaidAmount, PaymentMethod, PaymentStatus)
+VALUES
+    (501, 'A001', 100.00, 100.00, 'Credit Card', 'Paid'),
+    (502, 'A002', 50.00, 50.00, 'Cash', 'Paid'),
+    (503, 'A003', 200.00, 200.00, 'Debit Card', 'Paid'),
+    (504, 'A004', 30.00, 0.00, 'Cash', 'Unpaid'),
+    (505, 'A005', 150.00, 150.00, 'Bank Transfer', 'Paid'),
+    (506, 'A006', 120.00, 120.00, 'Cash', 'Paid'),
+    (507, 'A007', 80.00, 80.00, 'Credit Card', 'Paid'),
+    (508, 'A008', 60.00, 0.00, 'Cash', 'Unpaid'),
+    (509, 'A009', 100.00, 100.00, 'Cash', 'Paid'),
+    (510, 'A010', 150.00, 0.00, 'Credit Card', 'Unpaid'),
+    (511, 'A011', 120.00, 120.00, 'Cash', 'Paid'),
+    (512, 'A012', 200.00, 0.00, 'Cash', 'Unpaid');
+
+INSERT INTO PolicyDetails (PolicyNumber, CoverageAmount, ExpiryDate, InsCompany)
+VALUES
+    ('P12345', 100000.00, '2025-12-31', 'ABC Health Insurance'),
+    ('P67890', 50000.00, '2026-05-30', 'XYZ Insurance'),
+    ('P11121', 150000.00, '2025-11-15', 'Global Insurance'),
+    ('P22232', 75000.00, '2026-08-22', 'HealthPlus'),
+    ('P33343', 120000.00, '2026-02-19', 'MedCare Insurance'),
+    ('P44454', 60000.00, '2026-06-30', 'SecureCare'),
+    ('P55565', 80000.00, '2026-12-31', 'BetterLife Insurance'),
+    ('P66676', 90000.00, '2025-10-10', 'MediAssist');
+
+INSERT INTO Insurance (InsuranceID, PolicyNumber, PatientID)
+VALUES
+    (601, 'P12345', 201),
+    (602, 'P67890', 202),
+    (603, 'P11121', 203);
+
+
+INSERT INTO RoomDetails (RoomType, OccupiedBeds, TotalBeds, ChargesPerDay, Status)
+VALUES
+    ('General', 8, 15, 200.00, 'Available'),
+    ('Semi-Private', 10, 10, 400.00, 'Full'),
+    ('Private', 0, 1, 1000.00, 'Available'),       
+    ('ICU', 15, 15, 5000.00, 'Full'),
+    ('Emergency', 0, 15, 600.00, 'Available'),     
+    ('Maternity', 15, 15, 800.00, 'Full'),
+    ('Isolation', 0, 1, 1200.00, 'Available');     
+
+INSERT INTO Room (RoomID, RoomType)
+VALUES
+    (701, 'General'),
+    (702, 'Semi-Private'),
+    (703, 'Private'),
+    (704, 'ICU'),
+    (705, 'Emergency'),
+    (706, 'Maternity'),
+    (707, 'Isolation'),
+    (708, 'ICU'),
+    (709, 'Private'),
+    (710, 'Emergency'),
+    (711, 'General'),
+    (712, 'General');
+
+INSERT INTO Hospitalized (RoomID, PatientID, AdmissionDate, DischargeDate)
+VALUES
+    (701, 201, '2025-04-15 10:00:00', '2025-04-17 12:00:00'),
+    (702, 202, '2025-04-16 09:00:00', NULL),
+    (703, 203, '2025-04-17 08:30:00', '2025-04-20 11:00:00'),
+    (704, 204, '2025-04-18 08:00:00', NULL),
+    (705, 205, '2025-04-19 09:30:00', NULL);
+	

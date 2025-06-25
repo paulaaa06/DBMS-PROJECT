@@ -1,0 +1,205 @@
+SET SEARCH_PATH TO HOSPITAL;
+
+--QUERIES
+
+--1) Room Availability Report
+SELECT 
+    rd.RoomType,
+    COUNT(r.RoomID) AS NumberOfRooms,
+    (rd.TotalBeds - rd.OccupiedBeds) AS AvailableBeds
+FROM 
+    RoomDetails rd
+LEFT JOIN 
+    Room r ON r.RoomType = rd.RoomType
+GROUP BY 
+    rd.RoomType, rd.TotalBeds, rd.OccupiedBeds;
+
+--2) Doctor Count per Department
+SELECT 
+    d.Name AS Department, 
+    COUNT(doc.DoctorID) AS DoctorCount
+FROM 
+    Department d
+JOIN 
+    Doctor doc ON d.DepartmentID = doc.DepartmentID
+GROUP BY 
+    d.Name;
+
+--3) Currently Hospitalized Patients
+SELECT 
+    p.PatientID, 
+    p.Fname, 
+    p.Lname, 
+    h.AdmissionDate
+FROM 
+    Hospitalized h
+JOIN 
+    Patient p ON h.PatientID = p.PatientID
+WHERE 
+    h.DischargeDate IS NULL;  -- Only patients who are currently hospitalized
+
+--4) Completed Appointment Medical Records
+SELECT 
+    mr.RecordID, 
+    mr.AppointID, 
+    mr.Diagnosis, 
+    mr.Treatment, 
+    mr.Allergy, 
+    mr.BloodGroup
+FROM 
+    MedicalRecords mr
+JOIN 
+    Appointment a ON mr.AppointID = a.AppointID
+WHERE 
+    a.Status = 'Completed';
+
+--5) Patients with Outstanding Bills
+SELECT 
+    p.PatientID, 
+    p.Fname, 
+    p.Lname, 
+    b.BillID, 
+    b.TotalAmount, 
+    b.PaidAmount
+FROM 
+    Bill b
+JOIN 
+    Patient p ON b.AppointID IN (SELECT AppointID FROM Appointment WHERE PatientID = p.PatientID)
+WHERE 
+    b.PaidAmount < b.TotalAmount;
+
+--6) Daily Revenue from Paid Bills
+SELECT 
+    SUM(b.TotalAmount) AS TotalRevenue
+FROM 
+    Bill b
+JOIN 
+    Appointment a ON b.AppointID = a.AppointID
+WHERE 
+    a.AppointmentDate = '2025-04-15'  -- Replace with the specific date
+    AND b.PaymentStatus = 'Paid';  -- Only consider bills that are marked as 'Paid'
+
+
+--7) Doctor with Highest Appointments
+SELECT 
+    d.Fname,
+	d.Lname, 
+    COUNT(a.AppointID) AS AppointmentCount
+FROM 
+    Doctor d
+JOIN 
+    Appointment a ON d.DoctorID = a.DoctorID
+GROUP BY 
+    d.DoctorID
+ORDER BY 
+    AppointmentCount DESC
+LIMIT 1;
+
+--8) Patients Without Insurance
+SELECT 
+    p.PatientID, 
+    p.Fname, 
+    p.Lname
+FROM 
+    Patient p
+LEFT JOIN 
+    Insurance i ON p.PatientID = i.PatientID
+WHERE 
+    i.PatientID IS NULL;
+
+--9) Room Details for a Specific Patient
+SELECT 
+    r.RoomID, 
+    r.RoomType
+FROM 
+    Room r
+JOIN 
+    Hospitalized h ON r.RoomID = h.RoomID
+WHERE 
+    h.PatientID = 201;  -- Replace 201 with the specific PatientID
+
+--10) Doctors with No Appointments
+SELECT 
+    d.DoctorID, 
+    d.Fname || ' ' || d.Lname AS DoctorName
+FROM 
+    Doctor d
+LEFT JOIN 
+    Appointment a ON d.DoctorID = a.DoctorID
+WHERE 
+    a.AppointID IS NULL;
+
+--11) Top 3 Diagnoses by Frequency
+SELECT 
+    Diagnosis, 
+    COUNT(*) AS DiagnosisCount
+FROM 
+    MedicalRecords
+GROUP BY 
+    Diagnosis
+ORDER BY 
+    DiagnosisCount DESC
+LIMIT 3;
+
+--12) All Medical History of the Patient
+SELECT 
+    P.PatientID,
+    P.Fname AS FirstName,
+    P.Lname AS LastName,
+    A.AppointID,
+    A.AppointmentDate,
+    MR.Diagnosis,
+    MR.Treatment,
+    MR.Allergy,
+    MR.BloodGroup
+FROM 
+    Patient P
+JOIN 
+    Appointment A ON P.PatientID = A.PatientID
+JOIN 
+    MedicalRecords MR ON A.AppointID = MR.AppointID
+WHERE 
+    P.PatientID = 202
+ORDER BY 
+    A.AppointmentDate DESC;
+
+--13) Medicines Expiring in the Next 30 Days
+SELECT 
+    M.MedicineID,
+    M.MedicineName,
+    MD.Manufacturer,
+    MD.ExpiryDate
+FROM 
+    Medicine M
+JOIN 
+    MedicineDetails MD ON M.MedicineID = MD.MedicineID
+WHERE 
+    MD.ExpiryDate BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '30 days'
+ORDER BY 
+    MD.ExpiryDate;
+
+--14) Patient Hospitalization Billing Details
+SELECT 
+    P.PatientID,
+    P.Fname || ' ' || P.Lname AS PatientName,
+    D.Fname || ' ' || D.Lname AS DoctorName,
+    DATE(H.AdmissionDate) AS AdmissionDate,
+    DATE(H.DischargeDate) AS DischargeDate,
+    RD.RoomType,
+    RD.ChargesPerDay,
+    (DATE(H.DischargeDate) - DATE(H.AdmissionDate)) AS NumberOfDays,
+    (DATE(H.DischargeDate) - DATE(H.AdmissionDate)) * RD.ChargesPerDay AS TotalAmount
+FROM 
+    Hospitalized H,
+    Room R,
+    RoomDetails RD,
+    Patient P,
+    Appointment A,
+    Doctor D
+WHERE 
+    H.RoomID = R.RoomID
+    AND R.RoomType = RD.RoomType
+    AND H.PatientID = P.PatientID
+    AND P.PatientID = A.PatientID
+    AND A.DoctorID = D.DoctorID
+    AND H.PatientID = 201;
